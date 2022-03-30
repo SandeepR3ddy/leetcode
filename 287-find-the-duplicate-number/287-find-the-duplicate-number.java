@@ -1,6 +1,6 @@
 class Solution {
 
-    public int solve(int[] nums,int curr) //curr is the value at nums[0] 
+ /*   public int solve(int[] nums,int curr) //curr is the value at nums[0] 
     {
         if(curr == nums[curr])
         {
@@ -12,7 +12,8 @@ class Solution {
         nums[curr] = curr;
         
         return solve(nums,temp);
-    }
+   }
+   */ 
     public int findDuplicate(int[] nums) {
         
         //1 is by sorting and linear search
@@ -29,6 +30,14 @@ class Solution {
         
         //array as hashmap by reccursion
         
-        return solve(nums,nums[0]);
+        //return solve(nums,nums[0]);
+    
+        while(nums[0] != nums[nums[0]])
+        {
+            int temp = nums[nums[0]];
+            nums[nums[0]] = nums[0];
+            nums[0] = temp;            
+        }
+         return nums[0];
     }
 }
