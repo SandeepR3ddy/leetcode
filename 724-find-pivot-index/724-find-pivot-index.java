@@ -8,24 +8,20 @@ class Solution {
             totalsum += val;
         }
         
-        int rightsum = totalsum - nums[0];
-        
-        if(rightsum == 0)
-        {
-           return 0; 
-        }
+        int rightsum = totalsum;
         
         int leftsum = 0;
         
-        for(int i = 1;i < nums.length;i++)
+        for(int i = 0;i < nums.length;i++)
         {
             rightsum -= nums[i];
-            leftsum += nums[i-1];
-            
             if(leftsum == rightsum)
             {
                  return i;
             }
+            
+            leftsum += nums[i];
+            
         }
         return -1;
     }
