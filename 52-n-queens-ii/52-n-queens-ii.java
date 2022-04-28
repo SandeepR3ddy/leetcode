@@ -1,35 +1,57 @@
 class Solution {
     
-  public static boolean isSafeToPlaceQueen(boolean[][] boxes, int r, int c) {
-         int[][] dir = { { 0, -1 }, { -1, -1 }, { -1, 0 }, { -1, 1 } };
-       // int[][] dir = { { 0, -1 }, { -1, -1 }, { -1, 0 }, { -1, 1 }, { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, -1 } };
+       public boolean isSafeToPlaceQueen(boolean[][] boxes,int row,int col)
+    {
+   
+        int[][] dirs = {{0,-1},{-1,-1},{-1,0},{-1,1}}; 
+    
         int n = boxes.length;
-        for (int d = 0; d < dir.length; d++) {
-            for (int rad = 1; rad <= n; rad++) {
-                int x = r + rad * dir[d][0];
-                int y = c + rad * dir[d][1];
-
-                if (x >= 0 && y >= 0 && x < n && y < n) {
-                    if (boxes[x][y])
+        
+        for(int d = 0;d < dirs.length;d++)
+        {
+            for(int rad = 1;rad <= n;rad++)
+            {
+                int x = row + (rad*dirs[d][0]);
+                int y = col + (rad*dirs[d][1]);
+                
+                if(x >= 0 && y >= 0 && x < n && y < n)
+                {
+                    if(boxes[x][y])
+                    {
                         return false;
-                } else
-                    break;
+                    }
+                }
+                else
+                {
+                   break;    
+                }
             }
         }
-        return true;
+     return true;
     }
-
-    public static int solveNQueens(boolean[][] boxes, int tnq, int bno) {
-        if (tnq == 0) {
+    
+    public int solveNQueens(boolean[][] boxes,int tq,int bno)
+    {
+        int n = boxes.length;
+        
+        if(tq == 0)
+        {
             return 1;
         }
-        int count = 0, n = boxes.length;
-        for (int bidx = bno; bidx < n * n; bidx++) {
-            int r = bidx / n, c = bidx % n;
-            if (isSafeToPlaceQueen(boxes, r, c)) {
-                boxes[r][c] = true;
-                count += solveNQueens(boxes, tnq - 1, bidx + 1);
-                boxes[r][c] = false;
+        
+        int count = 0;
+        
+        for(int bidx = bno;bidx < n*n;bidx++)
+        {
+            int row = bidx/n , col = bidx%n;
+            
+            if(isSafeToPlaceQueen(boxes,row,col))
+            {
+               boxes[row][col] = true;
+                
+               count += solveNQueens(boxes,tq-1,bidx+1); 
+                
+               boxes[row][col] = false; 
             }
         }
         return count;
