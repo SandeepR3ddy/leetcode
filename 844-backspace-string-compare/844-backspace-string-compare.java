@@ -1,52 +1,67 @@
 class Solution {
     
     public boolean backspaceCompare(String s, String t) {
-       
-        Stack<Character> st1 = new Stack<>();
+     
+        int i = s.length()-1, j = t.length()-1;
         
-        Stack<Character> st2 = new Stack<>();
+        int skipSchars = 0, skipTchars = 0;
         
-        
-        for(char ch : s.toCharArray())
+        while(i >= 0 || j >= 0)
         {
-            if(ch == '#')
+            
+            while(i >= 0)
             {
-                if(st1.size() > 0)
-                st1.pop();
+                if(s.charAt(i) == '#')
+                {
+                    skipSchars++;
+                    // i--;
+                }
+                else if(skipSchars > 0)
+                {
+                    skipSchars--;
+                     // i--;
+                }
+                else
+                {
+                    break;
+                }
+                i--;
             }
-            else
+            
+            
+            while(j >= 0)
             {
-                st1.push(ch);
+                if(t.charAt(j) == '#')
+                {
+                    skipTchars++;
+                    // j--;
+                }
+                else if(skipTchars > 0)
+                {
+                    skipTchars--;
+                    // j--;
+                }
+                else
+                {
+                    break;
+                }
+                j--;
             }
-        }
-        
-        
-        for(char ch : t.toCharArray())
-        {
-            if(ch == '#')
-            {
-                if(st2.size() > 0)
-                st2.pop();
-            }
-            else
-            {
-                st2.push(ch);
-            }
-        }
-        
-        int n = st1.size();
-        int m = st2.size();
-        
-        if(n != m)
-        {
-            return false;
-        }
-        for(int i = 0;i < n;i++)
-        {
-            if(st1.pop() != st2.pop())
+            
+            if(i >= 0 && j >= 0 && s.charAt(i) != t.charAt(j))
             {
                 return false;
             }
+            
+            if((i >= 0) != (j >= 0))
+            {
+                return false;
+            }
+            
+            i--;
+            j--;
+            
+            
         }
         
         return true;
