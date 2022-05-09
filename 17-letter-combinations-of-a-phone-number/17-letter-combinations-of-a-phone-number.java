@@ -1,41 +1,37 @@
 class Solution {
     
-    private void letterCombinations(String digits,int idx, String[] codes,List<String> ans, String psf)     {
+    public void letterCombinations(String[] words,String digits, int idx, List<String> ans, String psf)
+    {
         if(idx == digits.length())
         {
-           ans.add(psf);
+            ans.add(psf);
             return;
         }
         
-        int val = digits.charAt(idx)-'0';
+        int val = digits.charAt(idx) - '0';
         
-        String word = codes[val];
+        String word = words[val];
         
         for(int i = 0;i < word.length();i++)
         {
-            letterCombinations(digits,idx+1,codes,ans,psf+ word.charAt(i));
+           letterCombinations(words,digits,idx+1, ans, psf+ word.charAt(i)); 
         }
-        
         return;
     }
-     
     
-   
     public List<String> letterCombinations(String digits) {
         
-       List<String> ans = new ArrayList<>();
-       
-       if(digits.length() == 0)
-       {
-           return ans;
+        String[] words = {"0","1","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        
+        List<String> ans = new ArrayList<>();
+        
+        if(digits.length() == 0)
+        {
+            return ans;
         }
         
+        letterCombinations(words,digits, 0, ans, "");
         
-       String[] codes =  {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"}; 
-        
-       letterCombinations(digits,0,codes,ans,""); 
-     
         return ans;
-        
     }
 }
