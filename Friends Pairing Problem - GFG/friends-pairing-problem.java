@@ -23,37 +23,25 @@ class GfG
 //User function Template for Java
 
 class Solution
-{
-    public long countFriendsPairing(int n,long[] dp)
     {
-      if(n <= 1)
-      {
-          return dp[n] = 1; 
-      }
-         
-      if(dp[n] != 0)
-      {
-          return dp[n];
-      }
-         
-      long mod = (long)1e9+7 ;         
-         
-      long single = countFriendsPairing(n-1,dp) % mod;        
-         
-      long pairup = (countFriendsPairing(n-2,dp)*(n-1)) % mod;
-         
-    return dp[n] = (single+pairup)%mod;     
-         
-    }
-    
-    
     
     public long countFriendsPairings(int n) 
     { 
        long[] dp = new long[n+1];
+     
+       long mod = (long)1e9+7;
        
-       countFriendsPairing(n,dp);
-       
+       for(int i = 0;i <= n;i++)
+       {
+           if(i <= 1)
+           {
+             dp[i] = 1;
+             continue;
+           }
+           
+           dp[i] = (dp[i-1]%mod + (i-1)*dp[i-2]%mod)%mod;
+           
+       }
        return dp[n];
     }
 }    
