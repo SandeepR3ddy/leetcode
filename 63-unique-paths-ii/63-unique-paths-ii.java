@@ -22,10 +22,10 @@ class Solution {
         {
             count += solve(sr,sc-1,dr,dc,dp,obstacleGrid);
         }
-        if(sr - 1 >= 0 && sc-1 >= 0 && obstacleGrid[sr-1][sc] == 1 && obstacleGrid[sr][sc-1] == 1)
-        {
-            return 0;
-        }
+        // if(sr - 1 >= 0 && sc-1 >= 0 && obstacleGrid[sr-1][sc] == 1 && obstacleGrid[sr][sc-1] == 1)
+        // {
+        //     return 0;
+        // }
         dp[sr][sc] = count;
        
         return count;
