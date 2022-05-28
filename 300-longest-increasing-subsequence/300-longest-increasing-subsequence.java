@@ -1,61 +1,26 @@
 class Solution {
-    
-    public int findceil(int val,ArrayList<Integer> seq)
-    {
-        int low = 0;
-        
-        int high = seq.size()-1;
-
-        int ceil = Integer.MIN_VALUE; 
-        
-        while(low <= high)
-        {
-          int mid = (low+high)/2;
-            
-            int key = seq.get(mid);
-            
-            if(key == val)
-            {
-                return mid;
-            }
-            else if(key < val)
-            {
-                low = mid+1;
-            }
-            else
-            {
-                ceil = mid;
-                high = mid-1;
-            }
-        }
-        return ceil;
-    }
-    
-    
-    
     public int lengthOfLIS(int[] nums) {
         
         
         int[] dp = new int[nums.length];
-         
-        ArrayList<Integer> seq = new ArrayList<>();
         
-        for(int i = 0;i < nums.length;i++)
+        dp[0] = 1;
+        
+        int omax = dp[0];
+        
+        for(int i = 1;i < nums.length;i++)
         {
-            if(seq.size() == 0 || seq.get(seq.size()-1) < nums[i])
+            int max = 0;
+            for(int j = i-1;j >= 0;j--)
             {
-                seq.add(nums[i]);
+                 if(nums[j] < nums[i])
+                 {
+                     max = Math.max(max,dp[j]);
+                 }
             }
-            else
-            {
-              
-                int ceilindex = findceil(nums[i],seq);
-                
-                seq.set(ceilindex, nums[i]);
-                
-            }
-         
+            dp[i] = max+1;
+            omax = Math.max(dp[i],omax);
         }
-        return seq.size();
+        return omax;
     }
 }
