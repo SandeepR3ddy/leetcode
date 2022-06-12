@@ -11,18 +11,19 @@ class Solution {
             return dp[n][m]; 
         }
         
-        int same = longestCommonSubsequence(str1, str2, n-1, m-1, dp);
-        
-        int leaveright = longestCommonSubsequence(str1, str2, n-1, m, dp);
-        
-        int leaveleft = longestCommonSubsequence(str1, str2, n, m-1, dp);
+    
+      
         
         if(str1.charAt(n-1) == str2.charAt(m-1))
         {
-            return dp[n][m] = same+1;
+            return dp[n][m] = longestCommonSubsequence(str1, str2, n-1, m-1, dp)+1;
         }
         else
         {
+              
+        int leaveright = longestCommonSubsequence(str1, str2, n-1, m, dp);
+        
+        int leaveleft = longestCommonSubsequence(str1, str2, n, m-1, dp);
             return dp[n][m] = Math.max(leaveleft, leaveright);
         }
     }
