@@ -9,74 +9,87 @@
  */
 class Solution {
     
-    public void  helper(TreeNode root, TreeNode target, int k, TreeNode block, List<Integer> ans)
+    public List<TreeNode> nodeToRootPath(TreeNode root, TreeNode node)
     {
-        if(root == null)
+         if(root == null)
+         {
+             return new ArrayList<>();
+         }
+        
+        if(root == node)
+        {
+            
+            List<TreeNode> base = new ArrayList<>();
+            base.add(node);
+            return base;
+        }
+        
+       List<TreeNode> left = nodeToRootPath(root.left,node);
+        
+        if(left.size() != 0)
+        {
+           left.add(root);
+            return left;
+        }
+        
+        
+       List<TreeNode> right = nodeToRootPath(root.right,node);
+        
+        if(right.size() != 0)
+        {
+           right.add(root);
+            return right;
+        }
+        
+        return new ArrayList<>();
+    }
+    
+    public void kdown(TreeNode root,int k, TreeNode block, List<Integer> allNodesAtK)
+    {
+        
+        if(root == null || k < 0 || root == block)
         {
             return;
         }
-       
+        
+        
         if(k == 0)
         {
-            ans.add(root.val);
-            // System.out.println(root.val);
-            
+            allNodesAtK.add(root.val);
             return;
         }
         
-        if(root.left != block)
-        {
-            helper(root.left, target, k-1, block, ans);
-        }
-        if(root.right != block)
-        {
-            helper(root.right, target, k-1, block, ans);
-        }
+        kdown(root.left, k-1, block, allNodesAtK);
+        
+        kdown(root.right, k-1, block, allNodesAtK);
+        
     }
-        
-        
-    public int solve(TreeNode root, TreeNode target, int k, List<Integer> ans)
-    {
-        if(root == null)
-        {
-            return 0;
-        }
-        if(root == target)
-        {
-            helper(root.left , target, k - 1,null, ans);
-            helper(root.right, target, k - 1,null , ans);
-            if(k == 0)
-            {
-                ans.add(root.val);
-            }
-            return 1;
-        }
-        
-        int left = solve(root.left,target, k, ans);
-        
-        if(left > 0)
-        {
-            helper(root, target, k - left, root.left, ans);
-            return left+1;
-        }
-         
-        int right =  solve(root.right, target, k, ans);
-     
-        if(right > 0)
-        {
-            helper(root, target, k - right, root.right, ans);
-            return right+1;
-        }    
-        return 0;
-    }
+    
+    
+    
     
     
     public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
         
-        List<Integer> ans = new ArrayList<>();
         
-        solve(root, target, k, ans);
+        List<TreeNode> allNodes = nodeToRootPath(root, target);
         
-        return ans;
+        
+        List<Integer> res = new ArrayList<>();
+        
+        TreeNode block = null;
+        
+        for(int i = 0;i < allNodes.size();i++)
+        {
+           
+            kdown(allNodes.get(i), k - i, block, res);
+            
+            block = allNodes.get(i);
+             
+        }
+        
+        
+        return res;
+        
     }
 }
