@@ -8,76 +8,28 @@
  * }
  */
 class Solution {
-    
-    public List<TreeNode> nodeToRootPath(TreeNode root, TreeNode target)
-    {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        
         if(root == null)
         {
-            return new ArrayList<>();
+            return null;
         }
-        
-        if(root == target)
+        if(root == p || root == q)
         {
-         
-            List<TreeNode> list = new ArrayList<>();
-            
-            list.add(root);
-            
-            return list;
-            
+            return root;
         }
         
-        List<TreeNode> left = nodeToRootPath(root.left,target);
+        TreeNode left = lowestCommonAncestor(root.left,p,q);
         
-        if(left.size() != 0)
+        TreeNode right = lowestCommonAncestor(root.right,p,q);
+        
+        if(left != null && right != null)
         {
-            left.add(root);
-            
-            return left;
+          return root;
         }
         
+        return left != null ? left : right;
         
-        List<TreeNode> right = nodeToRootPath(root.right,target);
-        
-        if(right.size() != 0)
-        {
-            right.add(root);
-            
-            return right;
-        }
-        
-        
-        return new ArrayList<>();
-        
-    }
-    
-    
-    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-      
-        List<TreeNode> list1 = nodeToRootPath(root, p);
-        
-        List<TreeNode> list2 = nodeToRootPath(root, q);
-    
-        int i = list1.size()-1, j = list2.size()-1;
-        
-        TreeNode lca = null;
-        
-        while(i >= 0 && j >= 0)
-        {
-        
-             if(list1.get(i) != list2.get(j))
-             {
-                 break;
-             }
-            
-            lca = list1.get(i);
-            
-            i--;
-            j--;
-            
-        }
-        
-        return lca;
         
     }
 }
