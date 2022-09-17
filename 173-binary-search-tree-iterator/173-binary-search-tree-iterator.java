@@ -14,26 +14,74 @@
  * }
  */
 class BSTIterator {
-	Stack<TreeNode> stack;
-	public BSTIterator(TreeNode root) {
-		stack = new Stack<>();
-		TreeNode node = root;
-		update(node);                                     
-	}
-	public int next() {
-		TreeNode toRemove = stack.pop();
-		update(toRemove.right);                           
-		return toRemove.val;
-	}
-	public boolean hasNext() {
-		return !stack.isEmpty();    
-	}
-	public void update(TreeNode node){
-		while(node != null){
-			stack.add(node);
-			node = node.left;
-		}
-	}
+
+    TreeNode curr = null;
+    
+    public BSTIterator(TreeNode root) {
+        
+        curr = root;
+    }
+    
+    private TreeNode getRightMostNode(TreeNode node, TreeNode curr)
+    {
+        
+        while(node.right != null && node.right != curr)
+        {
+            node = node.right;
+        }
+        
+        return node;
+        
+    }
+    
+    public int next() {
+        
+            int rv = -1;
+        
+        while(curr != null)
+        {
+          TreeNode left = curr.left;
+      
+            
+          if(left == null)
+          {
+              rv = curr.val;
+              curr = curr.right;
+              
+              break;
+          }
+          else
+          {
+            
+              TreeNode right = getRightMostNode(left, curr);
+              
+              if(right.right == null)
+              {
+                  right.right = curr;
+                  
+                  curr = curr.left;
+                  
+              }
+              else
+              {
+                  right.right = null;
+                  
+                  rv = curr.val;
+                  
+                  curr = curr.right;
+                  
+                  break;
+              }   
+          }
+        }
+        return rv;
+    }
+    
+    public boolean hasNext() {
+        
+        return curr != null;
+        
+    }
 }
 
 /**
