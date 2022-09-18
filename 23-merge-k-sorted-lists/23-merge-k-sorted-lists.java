@@ -49,18 +49,21 @@ class Solution {
     }
     
     
-    public ListNode mergeKLists(ListNode[] lists) {
-        
-        ListNode ans = null;
-        
-        for(ListNode node : lists)
+    public ListNode mergeKLists(ListNode[] lists, int si, int end)
+    {
+        if(si >= end)
         {
-            
-            ans = merge(ans, node);
-            
+            return si > end ? null : lists[si];
         }
         
+        int mid = (si+end)/2;
         
-        return ans;
+        return merge(mergeKLists(lists, si, mid), mergeKLists(lists,mid+1,end));
+        
+    }
+    
+    public ListNode mergeKLists(ListNode[] lists) {
+        
+        return mergeKLists(lists, 0, lists.length-1);
     }
 }
