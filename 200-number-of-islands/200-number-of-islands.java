@@ -1,43 +1,50 @@
 class Solution {
     
-    public void dfs(char[][] grid,int row,int col,int[][] dir)
+    public void dfs(char[][] grid, int i, int j, int[][] dir)
     {
-        grid[row][col] = '0';
+       grid[i][j] = '0'; 
         
-        for(int d = 0;d < dir.length;d++)
-        {
-           int nrow = row + dir[d][0];
-           int ncol = col + dir[d][1];
-            
-          if(nrow >= 0 && nrow < grid.length && ncol >= 0 && ncol < grid[0].length && grid[nrow][ncol] == '1')
-          {
-              dfs(grid, nrow, ncol, dir);   
-          }
-         
+       int size = 0; 
         
-        }
+       for(int k = 0;k < dir.length;k++)
+       {
+          int r = i + dir[k][0];
+           int c = j + dir[k][1];
+           
+           if(r >= 0 && c >= 0 & r < grid.length && c < grid[0].length && grid[r][c] != '0')
+           {
+               dfs(grid,r,c,dir);
+           }
+       
+       }
         
-        
+        // return size+1;
+  
     }
     
-    
     public int numIslands(char[][] grid) {
+     
+        int n = grid.length, m = grid[0].length;
         
-        int[][] dir = {{0,-1},{0,1},{-1,0},{1,0}};
-        int count = 0;
+         int island = 0;
         
+        int[][] dir = {{-1,0},{0,-1},{1,0},{0,1}};
         
-        for(int i = 0;i < grid.length;i++)
+        for(int i = 0;i < n;i++)
         {
-            for(int j = 0;j < grid[0].length;j++)
+            for(int j = 0;j < m;j++)
             {
+                
                 if(grid[i][j] == '1')
                 {
-                   dfs(grid,i,j,dir);    
-                    count++;
+                    island++;
+                
+                 dfs(grid,i,j,dir);
                 }
+                // max = Math.max(size,max);
             }
         }
-        return count;
+        
+        return island;
     }
 }
