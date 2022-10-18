@@ -67,21 +67,17 @@ class Solution {
          graph.get(val[0]).add(val[1]);   
      }
         
-       List<Integer> ans = solve(graph, numCourses);   
+       List<Integer> ans = solve(graph, numCourses); 
         
-       Collections.reverse(ans); 
-        
-        
-       int[] res = new int[ans.size()];
-       if(ans.size() == 0)
-       {
-        return res;   
-       }
+        int n = ans.size();
         
         
-        for(int i = 0;i < numCourses;i++)
+       int[] res = new int[n];
+        
+        
+        for(int i = n-1;i >= 0;i--)
         {
-            res[i] = ans.get(i);
+            res[n-1-i] = ans.get(i);
         }
         
         return res;
