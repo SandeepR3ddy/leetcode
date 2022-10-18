@@ -1,51 +1,58 @@
 class Solution {
     
+    public boolean dfs(List<List<Integer>> graph, int src, int[] vis, List<Integer> ans)
+    {
+        
+        vis[src] = 1;
+        
+        boolean iscycle = false;
+        
+        for(int val : graph.get(src))
+        {
+            if(vis[val] == 0)
+            {
+               iscycle = iscycle || dfs(graph, val, vis, ans);
+            }
+            else if(vis[val] == 1)
+            {
+                return true;
+            }
+        }
+        
+        ans.add(src);
+        
+        vis[src] = 2;
+        
+        return iscycle;
+        
+        
+        
+    }
     
     public boolean solve(List<List<Integer>> graph, int n)
     {
-        LinkedList<Integer> que = new LinkedList<>();
-        int[] indegree = new int[n];
         
-        for(List<Integer> edges: graph)
-        {
-            for(int v : edges)
-            {
-                indegree[v]++;
-            }
-        }
+        List<Integer> ans = new ArrayList<>();
+        
+        boolean iscycle = false;
+        
+        int[] vis = new int[n];
         
         for(int i = 0;i < n;i++)
         {
-            if(indegree[i] == 0)
+            if(vis[i] == 0)
             {
-                que.addLast(i);
+                
+                iscycle = iscycle || dfs(graph, i, vis , ans);   
             }
         }
         
-        ArrayList<Integer> ans = new ArrayList<>();
+//         if(iscycle)
+//         {
+//             ans.clear();
+//         }
         
-        while(que.size() > 0)
-        {
-            int size = que.size();
-            
-            while(size-- > 0)
-            {
-                int vtx = que.removeFirst();
-                
-                ans.add(vtx);
-                
-                for(int e : graph.get(vtx))
-                {
-                    if(--indegree[e] == 0)
-                    {
-                        que.addLast(e);
-                    }
-                    
-                }
-                    
-            }
-        }
-           return ans.size() == n;
+        return !(iscycle);
         
     }
         
